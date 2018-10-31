@@ -1,9 +1,9 @@
 R Notebook for visualizing exercise effects on learning and memory
 ================
 
--   [add cross-sectional data](#add-cross-sectional-data)
--   [plot interventions and cross-sectional together](#plot-interventions-and-cross-sectional-together)
--   [plot relational memory by task and across age groups](#plot-relational-memory-by-task-and-across-age-groups)
+-   [Cross-sectional data](#cross-sectional-data)
+-   [Plot interventions and cross-sectional together](#plot-interventions-and-cross-sectional-together)
+-   [Plot relational memory by task and across age groups](#plot-relational-memory-by-task-and-across-age-groups)
 
 **Goal**: Display links between exercise independent variables and cognition dependent variables in the form of a stacked bar graph that indicates number of studies with each outcome (dependent) and proportion positive or null results. This approach is similar to the Beydoun et al., 2014 meta-analysis which summarizes results based on the result of testing the hypothesis that physical activity reduces cognitive decline and dementia in cross-sectional and prospective studies.
 
@@ -131,8 +131,8 @@ interventions$DependentConstruct <- ifelse(interventions$DependentConstruct == "
 interventions$CognitiveStatus<-factor(interventions$CognitiveStatus,levels=c("CognitivelyNormal","MCI","Dementia"),labels=c("CogNormal","MCI","Dementia"))
 ```
 
-add cross-sectional data
-========================
+Cross-sectional data
+====================
 
 ``` r
 crossx = read.csv("CrossSectionalOutcomesR.csv", header = TRUE, sep = ",")
@@ -169,7 +169,7 @@ crossx$DependentConstruct <- ifelse(crossx$DependentConstruct == "AVLT","WordLis
 crossx$CognitiveStatus<-factor(crossx$CognitiveStatus,levels=c("CognitivelyNormal","MCI","Dementia"),labels=c("CogNormal","MCI","Dementia"))
 ```
 
-plot interventions and cross-sectional together
+Plot interventions and cross-sectional together
 ===============================================
 
 ``` r
@@ -196,28 +196,6 @@ levels(overall_plot$AgeGroup)
     ## [5] "Older"
 
 ``` r
-ggplot(data=overall_plot)+
-  geom_bar(mapping=aes(x=IndependentVariable,fill=LinkType),color="black") +
-  scale_fill_brewer(palette="Purples") +
-  labs(y="Observations") +
-  ylim(0,13) +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  facet_grid(~CognitiveStatus~AgeGroup~DependentConstruct)
-```
-
-    ## Warning: Removed 1 rows containing missing values (geom_bar).
-
-![](ExerciseRelationsBar_files/figure-markdown_github/unnamed-chunk-7-1.png)
-
-``` r
-ggsave(filename="LiteratureMemoryOutcomes.png",width=8,units=c("in"),dpi=300)
-```
-
-    ## Saving 8 x 5 in image
-
-    ## Warning: Removed 1 rows containing missing values (geom_bar).
-
-``` r
 data_in_fig1<-subset(overall_plot,CognitiveStatus=="CogNormal")
 write.csv(data_in_fig1,"data_in_fig1.csv", row.names=FALSE, na="")
 
@@ -237,7 +215,7 @@ ggplot(data=subset(overall_plot,CognitiveStatus=="CogNormal" & AgeGroup=="Older"
         strip.background = element_rect(colour="black", size=1))
 ```
 
-![](ExerciseRelationsBar_files/figure-markdown_github/unnamed-chunk-8-1.png)
+![](ExerciseRelationsBar_files/figure-markdown_github/unnamed-chunk-7-1.png)
 
 ``` r
 ggsave(filename="LiteratureMemoryOutcomes.eps",width=8,units=c("in"),dpi=900)
@@ -245,7 +223,7 @@ ggsave(filename="LiteratureMemoryOutcomes.eps",width=8,units=c("in"),dpi=900)
 
     ## Saving 8 x 5 in image
 
-plot relational memory by task and across age groups
+Plot relational memory by task and across age groups
 ====================================================
 
 ``` r
@@ -267,7 +245,7 @@ ggplot(data=subset(overall_plot_rel,CognitiveStatus=="CogNormal"))+
         strip.background = element_rect(colour="black", size=1))
 ```
 
-![](ExerciseRelationsBar_files/figure-markdown_github/unnamed-chunk-9-1.png)
+![](ExerciseRelationsBar_files/figure-markdown_github/unnamed-chunk-8-1.png)
 
 ``` r
 ggsave(filename="LiteratureMemoryOutcomes-relational.pdf",width=8,units=c("in"),dpi=900)
