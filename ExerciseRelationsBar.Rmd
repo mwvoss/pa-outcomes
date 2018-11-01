@@ -5,7 +5,7 @@ output:
     toc_depth: 1
     html_preview: false
 
-title: "R Notebook for visualizing exercise effects on learning and memory"
+title: "R Notebook for visualizing physical activity effects on learning and memory outcomes"
 ---
 
 **Goal**: Display links between independent variables (physical activity, aerobic training, etc) and dependent variables (memory) in the form of a stacked bar graph that indicates number of studies with each outcome (dependent) and proportion positive or null results. This approach is similar to the [Beydoun et al., 2014 meta-analysis](https://github.com/mwvoss/physical-activity-outcomes/blob/master/key-sources/Beydoun-2014-Epidemiologic%20studies%20of%20modifiab.pdf) which summarizes results based on the result of testing the hypothesis that physical activity reduces cognitive decline and dementia in cross-sectional and prospective observational studies. 
@@ -28,11 +28,11 @@ To summarize randomized controlled trials systematically, we aggregated studies 
   
   
 Papers extracted from these meta-analyses were aggregated to a database and the following search terms were used to identify studies that used specific tasks of interest as outcomes:   </br>   
-* RAVLT, “rey auditory”, “verbal learning”, CVLT, “california modified (CVLT)”, “california modified”, “california verbal”, “california learning”, HVLT, hopkins, “hopkins verbal”, “Paired associate”, “ROCF”, “Rey-Osterrieth Complex Figure (ROCF)”, “rey-osterrieth”, “rey osterrieth complex figure”, logical memory, “verbal fluency”, allocentric, “pattern separation”, “object discrimination”, “spatial navigation”, wayfinding, “relational memory”	  </br>  
+RAVLT, “rey auditory”, “verbal learning”, CVLT, “california modified (CVLT)”, “california modified”, “california verbal”, “california learning”, HVLT, hopkins, “hopkins verbal”, “Paired associate”, “ROCF”, “Rey-Osterrieth Complex Figure (ROCF)”, “rey-osterrieth”, “rey osterrieth complex figure”, logical memory, “verbal fluency”, allocentric, “pattern separation”, “object discrimination”, “spatial navigation”, wayfinding, “relational memory”	  </br>  
 
 Effects were excluded due to lack of reported outcome data, the primary intervention was acute (single session), the intervention was not targeted to the aerobic system, results were only reported for cognitive composite scores. From these studies we summarize the proportion of studies that examined aerobic training or multicomponent training on cognitive tasks with demonstrated clinical relevance for predicting cognitive decline or impairment or which have been proposed to specifically tap into processes that require the hippocampus (e.g., pattern separation, spatial navigation, relational memory). </br>  
 
-In addition we systematically aggregated studies using a cross-sectional design by searching pubmed with the following search term combinations:     </br>
+In addition, we systematically aggregated studies using a cross-sectional design by searching pubmed with the following search term combinations:     </br>
 
 ((((cardiorespiratory fitness) OR fitness) OR physical activity) OR physical exercise) AND    </br>
   RAVLT  </br>
@@ -52,6 +52,8 @@ In addition we systematically aggregated studies using a cross-sectional design 
   “relational memory”   </br>
   
   Studies were eligible for summary that used a human population that was cognitively normal and deviated from normal only based on age-related cognitive impairment or dementia (e.g., psychiatric diseases were excluded), design must have been observational (cross-sectional or prospective), and the study had to be available in english.  </br>
+  
+Following these steps, we coded effects as positive, null, or negative and this information was entered into separate databases for [cross-sectional](https://github.com/mwvoss/physical-activity-outcomes/blob/master/CrossSectionalOutcomesR.csv) and [intervention designs](https://github.com/mwvoss/physical-activity-outcomes/blob/master/InterventionOutcomesR.csv), along with other study information. The code below shows the process of filtering and prepping these outcomes for plotting using R's ggplot package. </br>
 
 
 # Load data and subset based on goal
@@ -214,11 +216,13 @@ ggplot(data=subset(overall_plot,CognitiveStatus=="CogNormal" & AgeGroup=="Older"
         strip.background = element_rect(colour="black", size=1))
 ggsave(filename="LiteratureMemoryOutcomes.eps",width=8,units=c("in"),dpi=900)
 
+# the figure was colored in affinity designer to combine coloring for physical activity and link type, can this be done in R? If you're reading this and you know how, please open an issue with a clue or email me! 
+
 ```
 
 
 
-# plot relational memory by task and age groups across the lifespan
+# Plot relational memory by task and age groups across the lifespan
 
 ```{r}
 

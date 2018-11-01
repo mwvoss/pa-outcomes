@@ -1,10 +1,10 @@
-R Notebook for visualizing exercise effects on learning and memory
+R Notebook for visualizing physical activity effects on learning and memory outcomes
 ================
 
 -   [Load data and subset based on goal](#load-data-and-subset-based-on-goal)
 -   [Load and specify cross-sectional data](#load-and-specify-cross-sectional-data)
 -   [Plot interventions and cross-sectional together](#plot-interventions-and-cross-sectional-together)
--   [plot relational memory by task and age groups across the lifespan](#plot-relational-memory-by-task-and-age-groups-across-the-lifespan)
+-   [Plot relational memory by task and age groups across the lifespan](#plot-relational-memory-by-task-and-age-groups-across-the-lifespan)
 
 **Goal**: Display links between independent variables (physical activity, aerobic training, etc) and dependent variables (memory) in the form of a stacked bar graph that indicates number of studies with each outcome (dependent) and proportion positive or null results. This approach is similar to the [Beydoun et al., 2014 meta-analysis](https://github.com/mwvoss/physical-activity-outcomes/blob/master/key-sources/Beydoun-2014-Epidemiologic%20studies%20of%20modifiab.pdf) which summarizes results based on the result of testing the hypothesis that physical activity reduces cognitive decline and dementia in cross-sectional and prospective observational studies.
 
@@ -13,11 +13,11 @@ R Notebook for visualizing exercise effects on learning and memory
 To summarize randomized controlled trials systematically, we aggregated studies included in eleven recent meta-analyses of exercise effects on cognition: </br> 1. Colcombe, S., Erickson, K., Raz, N., Webb, A., Cohen, N., McAuley, E., Kramer, A., 2003. Aerobic fitness reduces brain tissue loss in aging humans. J Gerontol A Biol Sci Med Sci 58(2), 176-180.</br> 2. Heyn, P., Abreu, B., Ottenbacher, K., 2004. The effects of exercise training on elderly persons with cognitive impairment and dementia: a meta-analysis. Arch Phys Med Rehabil 85(10), 1694-1704. </br> 3. Smith, P., Blumenthal, J., Hoffman, B., Cooper, H., Strauman, T., Welsh-Bohmer, K., Browndyke, J., Sherwood, A., 2010. Aerobic exercise and neurocognitive performance: a meta-analytic review of randomized controlled trials. Psychosom Med 72(3), 239-252. </br> 4. Roig, M., Nordbrandt, S., Geertsen, S., Nielsen, J., 2013. The effects of cardiovascular exercise on human memory: a review with meta-analysis. Neurosci Biobehav Rev 37(8), 1645-1666. </br> 5. Law, L., Barnett, F., Yau, M., Gray, M., 2014. Effects of combined cognitive and exercise interventions on cognition in older adults with and without cognitive impairment: a systematic review. Ageing Res Rev 15, 61-75. </br> 6. Forbes, D., Forbes, S.C., Blake, C.M., Thiessen, E.J., Forbes, S., 2015. Exercise programs for people with dementia. Cochrane Database Syst Rev(4), CD006489. </br> 7. Young, J., Angevaren, M., Rusted…, J., 2015. Aerobic exercise to improve cognitive function in older people without known cognitive impairment. The Cochrane … 4, CD005381. </br> 8. Kane, R.L., Butler, M., Fink, H.A., Brasure, M., Davila, H., Desai, P., 2017. Interventions to Prevent Age-Related Cognitive Decline, Mild Cognitive Impairment, and Clinical Alzheimer’s-Type Dementia. </br> 9. Barha, C.K., Davis, J.C., Falck, R.S., Nagamatsu, L.S., Liu-Ambrose, T., 2017. Sex differences in exercise efficacy to improve cognition: A systematic review and meta-analysis of randomized controlled trials in older humans. Front Neuroendocrinol 46, 71-85.</br> 10. Northey, J.M., Cherbuin, N., Pumpa, K.L., Smee, D.J., Rattray, B., 2018. Exercise interventions for cognitive function in adults older than 50: a systematic review with meta-analysis. Br J Sports Med 52(3), 154-160. </br> 11. Panza, G.A., Taylor, B.A., MacDonald, H.V., Johnson, B.T., Zaleski, A.L., Livingston, J., Thompson, P.D., Pescatello, L.S., 2018. Can Exercise Improve Cognitive Symptoms of Alzheimer's Disease? A Meta-Analysis. J Am Geriatr Soc. </br>
 
 Papers extracted from these meta-analyses were aggregated to a database and the following search terms were used to identify studies that used specific tasks of interest as outcomes: </br>
-\* RAVLT, “rey auditory”, “verbal learning”, CVLT, “california modified (CVLT)”, “california modified”, “california verbal”, “california learning”, HVLT, hopkins, “hopkins verbal”, “Paired associate”, “ROCF”, “Rey-Osterrieth Complex Figure (ROCF)”, “rey-osterrieth”, “rey osterrieth complex figure”, logical memory, “verbal fluency”, allocentric, “pattern separation”, “object discrimination”, “spatial navigation”, wayfinding, “relational memory” </br>
+RAVLT, “rey auditory”, “verbal learning”, CVLT, “california modified (CVLT)”, “california modified”, “california verbal”, “california learning”, HVLT, hopkins, “hopkins verbal”, “Paired associate”, “ROCF”, “Rey-Osterrieth Complex Figure (ROCF)”, “rey-osterrieth”, “rey osterrieth complex figure”, logical memory, “verbal fluency”, allocentric, “pattern separation”, “object discrimination”, “spatial navigation”, wayfinding, “relational memory” </br>
 
 Effects were excluded due to lack of reported outcome data, the primary intervention was acute (single session), the intervention was not targeted to the aerobic system, results were only reported for cognitive composite scores. From these studies we summarize the proportion of studies that examined aerobic training or multicomponent training on cognitive tasks with demonstrated clinical relevance for predicting cognitive decline or impairment or which have been proposed to specifically tap into processes that require the hippocampus (e.g., pattern separation, spatial navigation, relational memory). </br>
 
-In addition we systematically aggregated studies using a cross-sectional design by searching pubmed with the following search term combinations: </br>
+In addition, we systematically aggregated studies using a cross-sectional design by searching pubmed with the following search term combinations: </br>
 
 ((((cardiorespiratory fitness) OR fitness) OR physical activity) OR physical exercise) AND </br> RAVLT </br> CVLT </br> HVLT </br> "list learning" </br>
 "relational memory" </br>
@@ -28,6 +28,8 @@ In addition we systematically aggregated studies using a cross-sectional design 
 “spatial navigation” </br> wayfinding </br> “relational memory” </br>
 
 Studies were eligible for summary that used a human population that was cognitively normal and deviated from normal only based on age-related cognitive impairment or dementia (e.g., psychiatric diseases were excluded), design must have been observational (cross-sectional or prospective), and the study had to be available in english. </br>
+
+Following these steps, we coded effects as positive, null, or negative and this information was entered into separate databases for [cross-sectional](https://github.com/mwvoss/physical-activity-outcomes/blob/master/CrossSectionalOutcomesR.csv) and [intervention designs](https://github.com/mwvoss/physical-activity-outcomes/blob/master/InterventionOutcomesR.csv), along with other study information. The code below shows the process of filtering and prepping these outcomes for plotting using R's ggplot package. </br>
 
 Load data and subset based on goal
 ==================================
@@ -211,7 +213,11 @@ ggsave(filename="LiteratureMemoryOutcomes.eps",width=8,units=c("in"),dpi=900)
 
     ## Saving 8 x 5 in image
 
-plot relational memory by task and age groups across the lifespan
+``` r
+# the figure was colored in affinity designer to combine coloring for physical activity and link type, can this be done in R? If you're reading this and you know how, please open an issue with a clue or email me! 
+```
+
+Plot relational memory by task and age groups across the lifespan
 =================================================================
 
 ``` r
