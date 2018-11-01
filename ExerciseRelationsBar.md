@@ -1,48 +1,36 @@
 R Notebook for visualizing exercise effects on learning and memory
 ================
 
--   [Cross-sectional data](#cross-sectional-data)
+-   [Load data and subset based on goal](#load-data-and-subset-based-on-goal)
+-   [Load and specify cross-sectional data](#load-and-specify-cross-sectional-data)
 -   [Plot interventions and cross-sectional together](#plot-interventions-and-cross-sectional-together)
--   [Plot relational memory by task and across age groups](#plot-relational-memory-by-task-and-across-age-groups)
+-   [plot relational memory by task and age groups across the lifespan](#plot-relational-memory-by-task-and-age-groups-across-the-lifespan)
 
 **Goal**: Display links between independent variables (physical activity, aerobic training, etc) and dependent variables (memory) in the form of a stacked bar graph that indicates number of studies with each outcome (dependent) and proportion positive or null results. This approach is similar to the [Beydoun et al., 2014 meta-analysis](https://github.com/mwvoss/physical-activity-outcomes/blob/master/key-sources/Beydoun-2014-Epidemiologic%20studies%20of%20modifiab.pdf) which summarizes results based on the result of testing the hypothesis that physical activity reduces cognitive decline and dementia in cross-sectional and prospective observational studies.
 
 **Method**: There have recently been a number of meta-analyses that summarize the effects of aerobic exercise training on different aspects of cognition. Meta-analyses allow for summarizing results of different cognitive tasks across multiple studies, but in the summary process different cognitive tasks are grouped together as reflecting a common cognitive construct. While this can be valuable, several standardized neuropsychological tasks have been commonly administered which on their own have shown to be useful for predicting accelerated age-related cognitive decline, cognitive impairment, and risk of progressing to dementia. These include tasks of delayed recall on word list learning tasks (e.g., RAVLT, HVLT, CVLT), delayed recall of details from stories (e.g., logical memory), visuospatial configural memory (e.g., complex figure), and verbal fluency. In addition, the hippocampus is a known site of deterioration with Alzheimer's type dementia, and tasks that are designed to tap into subtle decline of hippocampal function may be fruitful for early detection of physical activity effects on the deterioration process. We therefore aimed to summarize the effects of exercise training, physical activity, and the clinically significant physiological outcome of cardiorespiratory fitness (CRF) on these outcomes.
 
-To summarize randomized controlled trials systematically, we aggregated studies included in eleven recent meta-analyses of exercise effects on cognition: </br> 1. Colcombe, S., Erickson, K., Raz, N., Webb, A., Cohen, N., McAuley, E., Kramer, A., 2003. Aerobic fitness reduces brain tissue loss in aging humans. J Gerontol A Biol Sci Med Sci 58(2), 176-180.</br> 2. Heyn, P., Abreu, B., Ottenbacher, K., 2004. The effects of exercise training on elderly persons with cognitive impairment and dementia: a meta-analysis. Arch Phys Med Rehabil 85(10), 1694-1704. </br> \* Smith, P., Blumenthal, J., Hoffman, B., Cooper, H., Strauman, T., Welsh-Bohmer, K., Browndyke, J., Sherwood, A., 2010. Aerobic exercise and neurocognitive performance: a meta-analytic review of randomized controlled trials. Psychosom Med 72(3), 239-252.
-\* Roig, M., Nordbrandt, S., Geertsen, S., Nielsen, J., 2013. The effects of cardiovascular exercise on human memory: a review with meta-analysis. Neurosci Biobehav Rev 37(8), 1645-1666.
-\* Law, L., Barnett, F., Yau, M., Gray, M., 2014. Effects of combined cognitive and exercise interventions on cognition in older adults with and without cognitive impairment: a systematic review. Ageing Res Rev 15, 61-75.
-\* Forbes, D., Forbes, S.C., Blake, C.M., Thiessen, E.J., Forbes, S., 2015. Exercise programs for people with dementia. Cochrane Database Syst Rev(4), CD006489.
-\* Young, J., Angevaren, M., Rusted…, J., 2015. Aerobic exercise to improve cognitive function in older people without known cognitive impairment. The Cochrane … 4, CD005381.
-\* Kane, R.L., Butler, M., Fink, H.A., Brasure, M., Davila, H., Desai, P., 2017. Interventions to Prevent Age-Related Cognitive Decline, Mild Cognitive Impairment, and Clinical Alzheimer’s-Type Dementia.
-\* Barha, C.K., Davis, J.C., Falck, R.S., Nagamatsu, L.S., Liu-Ambrose, T., 2017. Sex differences in exercise efficacy to improve cognition: A systematic review and meta-analysis of randomized controlled trials in older humans. Front Neuroendocrinol 46, 71-85. \* Northey, J.M., Cherbuin, N., Pumpa, K.L., Smee, D.J., Rattray, B., 2018. Exercise interventions for cognitive function in adults older than 50: a systematic review with meta-analysis. Br J Sports Med 52(3), 154-160.
-\* Panza, G.A., Taylor, B.A., MacDonald, H.V., Johnson, B.T., Zaleski, A.L., Livingston, J., Thompson, P.D., Pescatello, L.S., 2018. Can Exercise Improve Cognitive Symptoms of Alzheimer's Disease? A Meta-Analysis. J Am Geriatr Soc.
+To summarize randomized controlled trials systematically, we aggregated studies included in eleven recent meta-analyses of exercise effects on cognition: </br> 1. Colcombe, S., Erickson, K., Raz, N., Webb, A., Cohen, N., McAuley, E., Kramer, A., 2003. Aerobic fitness reduces brain tissue loss in aging humans. J Gerontol A Biol Sci Med Sci 58(2), 176-180.</br> 2. Heyn, P., Abreu, B., Ottenbacher, K., 2004. The effects of exercise training on elderly persons with cognitive impairment and dementia: a meta-analysis. Arch Phys Med Rehabil 85(10), 1694-1704. </br> 3. Smith, P., Blumenthal, J., Hoffman, B., Cooper, H., Strauman, T., Welsh-Bohmer, K., Browndyke, J., Sherwood, A., 2010. Aerobic exercise and neurocognitive performance: a meta-analytic review of randomized controlled trials. Psychosom Med 72(3), 239-252. </br> 4. Roig, M., Nordbrandt, S., Geertsen, S., Nielsen, J., 2013. The effects of cardiovascular exercise on human memory: a review with meta-analysis. Neurosci Biobehav Rev 37(8), 1645-1666. </br> 5. Law, L., Barnett, F., Yau, M., Gray, M., 2014. Effects of combined cognitive and exercise interventions on cognition in older adults with and without cognitive impairment: a systematic review. Ageing Res Rev 15, 61-75. </br> 6. Forbes, D., Forbes, S.C., Blake, C.M., Thiessen, E.J., Forbes, S., 2015. Exercise programs for people with dementia. Cochrane Database Syst Rev(4), CD006489. </br> 7. Young, J., Angevaren, M., Rusted…, J., 2015. Aerobic exercise to improve cognitive function in older people without known cognitive impairment. The Cochrane … 4, CD005381. </br> 8. Kane, R.L., Butler, M., Fink, H.A., Brasure, M., Davila, H., Desai, P., 2017. Interventions to Prevent Age-Related Cognitive Decline, Mild Cognitive Impairment, and Clinical Alzheimer’s-Type Dementia. </br> 9. Barha, C.K., Davis, J.C., Falck, R.S., Nagamatsu, L.S., Liu-Ambrose, T., 2017. Sex differences in exercise efficacy to improve cognition: A systematic review and meta-analysis of randomized controlled trials in older humans. Front Neuroendocrinol 46, 71-85.</br> 10. Northey, J.M., Cherbuin, N., Pumpa, K.L., Smee, D.J., Rattray, B., 2018. Exercise interventions for cognitive function in adults older than 50: a systematic review with meta-analysis. Br J Sports Med 52(3), 154-160. </br> 11. Panza, G.A., Taylor, B.A., MacDonald, H.V., Johnson, B.T., Zaleski, A.L., Livingston, J., Thompson, P.D., Pescatello, L.S., 2018. Can Exercise Improve Cognitive Symptoms of Alzheimer's Disease? A Meta-Analysis. J Am Geriatr Soc. </br>
 
-Papers extracted from these meta-analyses were aggregated to a database and the following search terms were used to identify studies that used specific tasks of interest as outcomes:
-\* RAVLT, “rey auditory”, “verbal learning”, CVLT, “california modified (CVLT)”, “california modified”, “california verbal”, “california learning”, HVLT, hopkins, “hopkins verbal”, “Paired associate”, “ROCF”, “Rey-Osterrieth Complex Figure (ROCF)”, “rey-osterrieth”, “rey osterrieth complex figure”, logical memory, “verbal fluency”, allocentric, “pattern separation”, “object discrimination”, “spatial navigation”, wayfinding, “relational memory”
+Papers extracted from these meta-analyses were aggregated to a database and the following search terms were used to identify studies that used specific tasks of interest as outcomes: </br>
+\* RAVLT, “rey auditory”, “verbal learning”, CVLT, “california modified (CVLT)”, “california modified”, “california verbal”, “california learning”, HVLT, hopkins, “hopkins verbal”, “Paired associate”, “ROCF”, “Rey-Osterrieth Complex Figure (ROCF)”, “rey-osterrieth”, “rey osterrieth complex figure”, logical memory, “verbal fluency”, allocentric, “pattern separation”, “object discrimination”, “spatial navigation”, wayfinding, “relational memory” </br>
 
-This resulted in 140 effects of interest being identified. Of these 17 studies (19 effects) were excluded due to lack of reported outcome data, the primary intervention was acute (single session), the intervention was not targeted to the aerobic system, results were only reported for cognitive composite scores. From these studies we summarize the proportion of studies that examined aerobic training or multicomponent training on cognitive tasks with demonstrated clinical relevance for predicting cognitive decline or impairment or which have been proposed to specifically tap into processes that require the hippocampus (e.g., pattern separation, spatial navigation, relational memory).
+Effects were excluded due to lack of reported outcome data, the primary intervention was acute (single session), the intervention was not targeted to the aerobic system, results were only reported for cognitive composite scores. From these studies we summarize the proportion of studies that examined aerobic training or multicomponent training on cognitive tasks with demonstrated clinical relevance for predicting cognitive decline or impairment or which have been proposed to specifically tap into processes that require the hippocampus (e.g., pattern separation, spatial navigation, relational memory). </br>
 
-In addition we systematically aggregated studies using a cross-sectional design by searching pubmed with the following search term combinations:
+In addition we systematically aggregated studies using a cross-sectional design by searching pubmed with the following search term combinations: </br>
 
-((((cardiorespiratory fitness) OR fitness) OR physical activity) OR physical exercise) AND
-RAVLT
-CVLT
-HVLT
-"list learning"
-"relational memory"
-"paired associates"
-"ROCF"
-"logical memory"
-"verbal fluency"
-allocentric
-“pattern separation”
-“object discrimination”
-“spatial navigation”
-wayfinding
-“relational memory”
+((((cardiorespiratory fitness) OR fitness) OR physical activity) OR physical exercise) AND </br> RAVLT </br> CVLT </br> HVLT </br> "list learning" </br>
+"relational memory" </br>
+"paired associates" </br>
+"ROCF" </br> "logical memory" </br>
+"verbal fluency" </br> allocentric </br> “pattern separation” </br>
+“object discrimination” </br>
+“spatial navigation” </br> wayfinding </br> “relational memory” </br>
 
-Studies were eligible for summary that used a human population that was cognitively normal and deviated from normal only based on age-related cognitive impairment or dementia (e.g., psychiatric diseases were excluded), design must have been observational (cross-sectional or prospective), and the study available in english.
+Studies were eligible for summary that used a human population that was cognitively normal and deviated from normal only based on age-related cognitive impairment or dementia (e.g., psychiatric diseases were excluded), design must have been observational (cross-sectional or prospective), and the study had to be available in english. </br>
+
+Load data and subset based on goal
+==================================
 
 ``` r
 rm(list=ls(all=TRUE))  #clear previous
@@ -51,7 +39,7 @@ library(tidyr)
 library(ggplot2)
 library(RColorBrewer)
 
-
+# load intervention database 
 interventions = read.csv("InterventionOutcomesR.csv", header = TRUE, sep = ",")
 interventions <-subset(interventions,interventions$MetaInclude == "Y")
 
@@ -66,7 +54,7 @@ interventions <-subset(interventions,interventions$IndependentVariable == "Aerob
 # exclude Major Depressive Disorder
 interventions <-subset(interventions,interventions$CognitiveStatus != "MajorDepressiveDisorder")
 
-# keep only intervention outcomes that are cognitive/memory
+# keep only intervention outcomes that are cognitive/memory rather than brain
 interventions <-subset(interventions,interventions$DependentVariable == "VerbalFluency" | interventions$DependentVariable == "VerbalPairedAssociates" | interventions$DependentVariable == "PairedAssociates" |interventions$DependentVariable == "LogicalMemory" | interventions$DependentVariable == "ComplexFigure" | interventions$DependentVariable == "ListLearning" | interventions$DependentVariable == "RAVLT" | interventions$DependentVariable == "CVLT" | interventions$DependentVariable == "AVLT" | interventions$DependentVariable == "HVLT" | interventions$DependentVariable == "Relational")
 
 
@@ -77,7 +65,7 @@ interventions <-subset(interventions,interventions$DependentType != "Immediate")
 interventions <-subset(interventions,interventions$LinkType != "NA")
 interventions <-subset(interventions,interventions$AgeGroup != "NA")
 
-
+# data structure
 str(interventions)
 ```
 
@@ -109,10 +97,9 @@ str(interventions)
     ##  $ Model                  : Factor w/ 19 levels "","APP/PS1","Back-crossingfrom129/SvbyC57BL/6",..: 1 1 1 1 1 1 1 1 1 1 ...
 
 ``` r
-# create a dependent construct variable to collapse across 
+# create a dependent construct variable to collapse across task variants when needed
 interventions$DependentConstruct <- interventions$DependentVariable
 
-# what is getting in the other category for animals?
 interventions$DependentConstruct <- ifelse(interventions$DependentConstruct == "AVLT","WordListRecall",
                                     ifelse(interventions$DependentConstruct == "CVLT","WordListRecall",
                                     ifelse(interventions$DependentConstruct == "HVLT","WordListRecall",
@@ -125,11 +112,12 @@ interventions$DependentConstruct <- ifelse(interventions$DependentConstruct == "
                                     ifelse(interventions$DependentConstruct == "VerbalFluency","VerbalFluency",
                                     ifelse(interventions$DependentConstruct == "ComplexFigure","Visuospatial","Other")))))))))))
 
+# re-label cognitive status variable
 interventions$CognitiveStatus<-factor(interventions$CognitiveStatus,levels=c("CognitivelyNormal","MCI","Dementia"),labels=c("CogNormal","MCI","Dementia"))
 ```
 
-Cross-sectional data
-====================
+Load and specify cross-sectional data
+=====================================
 
 ``` r
 crossx = read.csv("CrossSectionalOutcomesR.csv", header = TRUE, sep = ",")
@@ -144,6 +132,7 @@ crossx <-subset(crossx,crossx$DependentType != "Copy")
 # not enough discrimination to include
 crossx <-subset(crossx,crossx$DependentVariable != "MnemonicDiscrimination")
 
+# factorize cognitive status variable
 crossx$CognitiveStatus<-factor(crossx$CognitiveStatus,levels=c("CognitivelyNormal","MCI","Dementia"))
 ```
 
@@ -162,7 +151,7 @@ crossx$DependentConstruct <- ifelse(crossx$DependentConstruct == "AVLT","WordLis
                                     ifelse(crossx$DependentConstruct == "VerbalFluency","VerbalFluency",
                                     ifelse(crossx$DependentConstruct == "ROCF","Visuospatial",
                                     ifelse(crossx$DependentConstruct == "ComplexFigure","Visuospaial","Other")))))))))))
-
+# re-label cognitive status variable
 crossx$CognitiveStatus<-factor(crossx$CognitiveStatus,levels=c("CognitivelyNormal","MCI","Dementia"),labels=c("CogNormal","MCI","Dementia"))
 ```
 
@@ -170,6 +159,7 @@ Plot interventions and cross-sectional together
 ===============================================
 
 ``` r
+# make subset dataframes for each with common columns
 intervention_plot <- interventions  %>% select(StudyName,IndependentVariable,IndependentType,DependentConstruct,DependentVariable,DependentType,DependentSubType,LinkType,TotalSampleSize,AgeGroup,CognitiveStatus)
 
 crossx_plot <- crossx  %>% select(StudyName,IndependentVariable,IndependentType,DependentConstruct,DependentVariable,DependentType,DependentSubType,LinkType,TotalSampleSize,AgeGroup,CognitiveStatus)
@@ -177,10 +167,8 @@ crossx_plot <- crossx  %>% select(StudyName,IndependentVariable,IndependentType,
 overall_plot <- rbind(intervention_plot,crossx_plot)
 ```
 
-Re-order age group for chronological sense
-
 ``` r
-# levels(overall_plot$AgeGroup)
+# re-order age group for chronological sense
 overall_plot$AgeGroup <- relevel(overall_plot$AgeGroup,"Older")
 overall_plot$AgeGroup <- relevel(overall_plot$AgeGroup,"MiddleAge")
 overall_plot$AgeGroup <- relevel(overall_plot$AgeGroup,"YoungAdult")
@@ -193,9 +181,12 @@ levels(overall_plot$AgeGroup)
     ## [5] "Older"
 
 ``` r
+# plot 
+
 data_in_fig1<-subset(overall_plot,CognitiveStatus=="CogNormal")
 write.csv(data_in_fig1,"data_in_fig1.csv", row.names=FALSE, na="")
 
+# cognitively normal and middle age or older
 ggplot(data=subset(overall_plot,CognitiveStatus=="CogNormal" & AgeGroup=="Older" | AgeGroup=="MiddleAge"))+
   geom_bar(mapping=aes(x=IndependentVariable,fill=LinkType),color="black") +
   scale_fill_manual(values=c("grey94","gray72", "gray39")) +
@@ -220,8 +211,8 @@ ggsave(filename="LiteratureMemoryOutcomes.eps",width=8,units=c("in"),dpi=900)
 
     ## Saving 8 x 5 in image
 
-Plot relational memory by task and across age groups
-====================================================
+plot relational memory by task and age groups across the lifespan
+=================================================================
 
 ``` r
 overall_plot_rel<-subset(overall_plot,DependentConstruct=="Relational")
