@@ -10,11 +10,11 @@ title: "R Notebook for visualizing exercise effects on learning and memory in ro
 
 **Goal**: Display links for PA and memory outcomes in animal models.
 
-To summarize randomized controlled trials systematically, we aggregated studies included in eleven recent meta-analyses of exercise effects on cognition:    </br>
+**Method**:  To summarize randomized controlled trials systematically, we aggregated studies included in eleven recent meta-analyses of exercise effects on cognition:    </br>
 1. Hatchard, T., Ting, J.J., Messier, C., 2014. Translating the impact of exercise on cognition: methodological issues in animal research. Behav Brain Res 273, 177-188.</br>
 2. Barha, C.K., Falck, R.S., Davis, J.C., Nagamatsu, L.S., Liu-Ambrose, T., 2017. Sex differences in aerobic exercise efficacy to improve cognition: A systematic review and meta-analysis of studies in older rodents. Front Neuroendocrinol 46, 86-105.  </br>
   
-**Method**: We used the same methods for aggregating across studies as described for the summary of memory outcomes for [studies with humans](https://github.com/mwvoss/physical-activity-outcomes/blob/master/ExerciseRelationsBar.md). </br>
+We used the same methods for aggregating across studies as described for the summary of memory outcomes for [studies with humans](https://github.com/mwvoss/physical-activity-outcomes/blob/master/ExerciseRelationsBar.md). </br>
 
 Age groups for animals were determined based on these sources for [mice](https://www.sciencedirect.com/science/article/pii/S0024320515300527?via%3Dihub) and [rats](https://www.researchgate.net/profile/Pallav_Sengupta2/publication/255716093_The_Laboratory_Rat_Relating_Its_Age_With_Human%27s/links/5608523f08ae8e08c0946154/The-Laboratory-Rat-Relating-Its-Age-With-Humans.pdf) </br>
 
