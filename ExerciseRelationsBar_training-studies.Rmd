@@ -8,6 +8,7 @@ output:
 title: "R Notebook for visualizing exercise effects on learning and memory"
 ---
 
+# Setup
 
 ```{r, message=FALSE, warning=FALSE}
 
@@ -43,15 +44,15 @@ interventions <-subset(interventions,interventions$DependentType != "Immediate")
 interventions <-subset(interventions,interventions$LinkType != "NA")
 interventions <-subset(interventions,interventions$AgeGroup != "NA")
 
-
-str(interventions)
 ```
 
 
 
+# Tasks
 
 ```{r}
-# create a dependent construct variable to collapse across 
+# create a task variable to collapse across studies
+
 interventions$DependentConstruct <- interventions$DependentVariable
 
 interventions$DependentConstruct <- ifelse(interventions$DependentConstruct == "AVLT","WordListRecall",
@@ -81,6 +82,7 @@ intervention_plot <- interventions  %>% select(StudyName,IndependentVariable,Ind
 ```
 
 
+
 ```{r}
 
 data_in_fig1a <- intervention_plot %>% filter(CognitiveStatus=="CogNormal") %>%
@@ -103,6 +105,8 @@ data_in_fig1a$LinkType <- droplevels(data_in_fig1a$LinkType)
 levels(data_in_fig1a$LinkType)
 ```
 
+
+
 ```{r}
 # cross construct by linktype
 cross_construct_table <- table(data_in_fig1a$LinkType,data_in_fig1a$DependentConstruct)
@@ -111,7 +115,7 @@ proportions <- round(100*prop.table(cross_construct_table,2),digits=0)
 proportions
 ```
 
-Number of participants
+# Number of participants
 
 ```{r}
 data_in_fig1a$TotalSampleSize <- as.numeric(data_in_fig1a$TotalSampleSize)
@@ -123,6 +127,8 @@ sample_size <- data_in_fig1a %>%
 sample_size
 ```
 
+
+# Plot data
 
 ```{r}
 proportions.df = as.data.frame(proportions)
