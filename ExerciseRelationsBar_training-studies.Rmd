@@ -1,0 +1,157 @@
+---
+output:
+  github_document:
+    toc: true
+    toc_depth: 1
+    html_preview: false
+
+title: "R Notebook for visualizing exercise effects on learning and memory"
+---
+
+
+```{r, message=FALSE, warning=FALSE}
+
+rm(list=ls(all=TRUE))  #clear previous
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(RColorBrewer)
+
+
+interventions = read.csv("InterventionOutcomesR.csv", header = TRUE, sep = ",")
+interventions <-subset(interventions,interventions$MetaInclude == "Y")
+
+# keep monti for relational memory graph
+interventions_monti = read.csv("InterventionOutcomesR.csv", header = TRUE, sep = ",")
+interventions_monti <- subset(interventions_monti,interventions_monti$StudyName == "Monti2012")
+interventions <- rbind(interventions,interventions_monti)
+
+# keep only intervention design as independent variable, keep only intervention for comparison and not many of others
+interventions <-subset(interventions,interventions$IndependentVariable == "AerobicTraining")
+
+# exclude Major Depressive Disorder
+interventions <-subset(interventions,interventions$CognitiveStatus != "MajorDepressiveDisorder")
+
+# keep only intervention outcomes that are cognitive/memory, exclude verbal fluency
+interventions <-subset(interventions, interventions$DependentVariable == "VerbalPairedAssociates" | interventions$DependentVariable == "PairedAssociates" |interventions$DependentVariable == "LogicalMemory" | interventions$DependentVariable == "ComplexFigure" | interventions$DependentVariable == "ListLearning" | interventions$DependentVariable == "RAVLT" | interventions$DependentVariable == "CVLT" | interventions$DependentVariable == "AVLT" | interventions$DependentVariable == "HVLT" | interventions$DependentVariable == "Relational")
+
+
+# keep only delayed recall
+interventions <-subset(interventions,interventions$DependentType != "Immediate")
+
+# remove linktype NA or unknown age
+interventions <-subset(interventions,interventions$LinkType != "NA")
+interventions <-subset(interventions,interventions$AgeGroup != "NA")
+
+
+str(interventions)
+```
+
+
+
+
+```{r}
+# create a dependent construct variable to collapse across 
+interventions$DependentConstruct <- interventions$DependentVariable
+
+interventions$DependentConstruct <- ifelse(interventions$DependentConstruct == "AVLT","WordListRecall",
+                                    ifelse(interventions$DependentConstruct == "CVLT","WordListRecall",
+                                    ifelse(interventions$DependentConstruct == "HVLT","WordListRecall",
+                                    ifelse(interventions$DependentConstruct == "ListLearning","WordListRecall",
+                                    ifelse(interventions$DependentConstruct == "RAVLT","WordListRecall",
+                                    ifelse(interventions$DependentConstruct == "LogicalMemory","StoryRecall",
+                                    ifelse(interventions$DependentConstruct == "Relational","Relational",
+                                    ifelse(interventions$DependentConstruct == "VerbalPairedAssociates","Relational",
+                                    ifelse(interventions$DependentConstruct == "PairedAssociates","Relational",
+                                    ifelse(interventions$DependentConstruct == "ComplexFigure","Visuospatial","Other"))))))))))
+
+interventions$CognitiveStatus<-factor(interventions$CognitiveStatus,levels=c("CognitivelyNormal","MCI","Dementia"),labels=c("CogNormal","MCI","Dementia"))
+
+
+```
+
+
+
+# Tally and plot intervention outcomes
+
+```{r}
+
+intervention_plot <- interventions  %>% select(StudyName,IndependentVariable,IndependentType,DependentConstruct,DependentVariable,DependentType,DependentSubType,LinkType,TotalSampleSize,AgeGroup,CognitiveStatus)
+
+```
+
+
+```{r}
+
+data_in_fig1a <- intervention_plot %>% filter(CognitiveStatus=="CogNormal") %>%
+        filter(IndependentVariable=="AerobicTraining") %>%
+        filter(AgeGroup=="Older" | AgeGroup=="MiddleAge") 
+
+write.csv(data_in_fig1a,"data_in_fig1a.csv", row.names=FALSE, na="")
+
+```
+
+
+```{r}
+data_in_fig1a$LinkType <-as.factor(data_in_fig1a$LinkType)
+data_in_fig1a$DependentConstruct <-as.factor(data_in_fig1a$DependentConstruct)
+data_in_fig1a$DependentConstruct <- factor(data_in_fig1a$DependentConstruct, levels=c("Visuospatial","WordListRecall","StoryRecall","Relational"))
+levels(data_in_fig1a$DependentConstruct)
+
+levels(data_in_fig1a$LinkType)
+data_in_fig1a$LinkType <- droplevels(data_in_fig1a$LinkType)
+levels(data_in_fig1a$LinkType)
+```
+
+```{r}
+# cross construct by linktype
+cross_construct_table <- table(data_in_fig1a$LinkType,data_in_fig1a$DependentConstruct)
+addmargins(cross_construct_table)
+proportions <- round(100*prop.table(cross_construct_table,2),digits=0)
+proportions
+```
+
+Number of participants
+
+```{r}
+data_in_fig1a$TotalSampleSize <- as.numeric(data_in_fig1a$TotalSampleSize)
+
+sample_size <- data_in_fig1a %>%
+        group_by(DependentConstruct) %>%
+        summarise(TotalSampleSize = sum(TotalSampleSize))
+
+sample_size
+```
+
+
+```{r}
+proportions.df = as.data.frame(proportions)
+
+colnames(proportions.df)[colnames(proportions.df)=="Var1"] <- "Result"
+colnames(proportions.df)[colnames(proportions.df)=="Var2"] <- "TaskConstruct"
+
+ggplot(proportions.df, aes(x=TaskConstruct, y=Freq, fill = Result)) +
+        geom_bar(stat="identity", color="black") +
+        labs(y = NULL, fill = NULL, 
+         title = "Percentage of training studies with positive outcome by task construct") +
+        scale_fill_brewer(palette="Oranges") +
+        guides(fill = guide_legend(reverse=TRUE)) +
+        theme_classic() +
+        theme(axis.line = element_blank(),
+          axis.ticks = element_blank(),
+          plot.title = element_text(hjust = 0.5, color = "#666666"))
+
+
+# order the constructs with relevel in the order of lowest to highest percentage of positives:
+# visuospatial, Word list recall, Story Recall, Relational
+# add % and n of studies and participants onto the graph manually for best placement
+
+ggsave(filename="LiteratureMemoryOutcomes_stacked-bar.pdf",width=8,units=c("in"),dpi=900)
+```
+
+
+
+
+
+
+
